@@ -1,0 +1,16 @@
+services:
+  codexapp:
+    build: .
+    ports:
+      - "18923:18923"
+    environment:
+      CODEX_HOME: /home/node/.codex
+      CODEXAPP_PORT: 18923
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_ALLOWED_USER_IDS: ${TELEGRAM_ALLOWED_USER_IDS:-}
+      TELEGRAM_DEFAULT_CWD: /workspace
+    volumes:
+      - ${HOME}/.codex:/home/node/.codex
+      - ${CODEXAPP_WORKSPACE:-.}:/workspace
+    restart: unless-stopped
