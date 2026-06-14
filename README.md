@@ -260,6 +260,43 @@ Outgoing assistant messages are sent with Telegram `parse_mode=HTML` for formatt
 
 ---
 
+## 🐳 Docker
+
+Build and start `codexapp`, then open [http://localhost:18923](http://localhost:18923):
+
+```bash
+docker compose up --build -d
+docker compose logs -f codexapp
+```
+
+Stop the service with `docker compose down`. The image runs `node dist-cli/index.js` as the non-root `node` user and includes the Codex CLI.
+
+### Environment
+
+| Variable | Purpose |
+|---|---|
+| `OPENAI_API_KEY` | Optional API key passed to Codex |
+| `TELEGRAM_BOT_TOKEN` | Optional Telegram bot token |
+| `TELEGRAM_ALLOWED_USER_IDS` | Comma-separated Telegram user ID allowlist |
+| `CODEXAPP_PORT` | CLI default listening port; the Compose service sets it to `18923` |
+| `CODEX_HOME` | Codex state directory; the Compose service sets it to `/home/node/.codex` |
+| `CODEXAPP_WORKSPACE` | Host directory mounted at `/workspace`; defaults to the current directory |
+
+The Compose service mounts host `~/.codex` at `/home/node/.codex` so authentication, threads, and Codex state survive container replacement. It mounts `${CODEXAPP_WORKSPACE:-.}` at `/workspace` so projects remain on the host. If you change the container listening port, update the Compose port mapping and Docker healthcheck to match.
+
+### Telegram Example
+
+```bash
+export TELEGRAM_BOT_TOKEN="<your-telegram-bot-token>"
+export TELEGRAM_ALLOWED_USER_IDS="<your-telegram-user-id>"
+export CODEXAPP_WORKSPACE="/absolute/path/to/your/project"
+docker compose up --build -d
+```
+
+Telegram messages use `/workspace` as their default working directory in the Compose service.
+
+---
+
 ## 🤝 Contributing
 Issues and PRs are welcome.  
 Bring bug reports, platform notes, and setup improvements.
