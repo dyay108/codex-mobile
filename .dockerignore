@@ -8,7 +8,11 @@ output
 tests
 test
 docs
-documentation
+documentation/*
+!documentation/app-server-schemas
+documentation/app-server-schemas/*
+!documentation/app-server-schemas/typescript
+!documentation/app-server-schemas/typescript/**
 .github
 llm-wiki
 .cert
