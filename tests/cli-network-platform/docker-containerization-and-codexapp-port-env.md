@@ -1,4 +1,4 @@
-### Feature: Multi-architecture Docker containerization, schema-backed build, and CODEXAPP_PORT default
+### Feature: Multi-architecture Docker containerization, coding toolchain, and CODEXAPP_PORT default
 
 #### Prerequisites
 - Docker is running.
@@ -11,7 +11,7 @@
 3. Start the image with `docker run --rm -d --name codexapp-local -p 18923:18923 -v <codex-home>:/home/node/.codex -v <workspace>:/workspace codexapp-local`.
 4. Run `docker inspect --format '{{.State.Health.Status}}' codexapp-local` until it reports `healthy`.
 5. Open `http://localhost:18923/` and verify the app loads.
-6. Run `docker exec codexapp-local sh -lc 'id -u; printf "%s\n" "$CODEX_HOME" "$CODEXAPP_PORT"'`.
+6. Run `docker exec codexapp-local sh -lc 'id -u; printf "%s\n" "$CODEX_HOME" "$CODEXAPP_PORT"; for tool in bash cc curl fd git git-lfs gh jq less patch pip python3 rg rsync unzip pnpm yarn; do command -v "$tool"; done'`.
 7. Stop the container, then start the built CLI outside Docker with `CODEXAPP_PORT=5997 node dist-cli/index.js --no-open --no-tunnel --no-login --no-password`.
 8. Start it again with `CODEXAPP_PORT=5997 node dist-cli/index.js --port 5998 --no-open --no-tunnel --no-login --no-password`.
 9. After the main-branch Docker workflow publishes the image, run `docker buildx imagetools inspect ghcr.io/dyay108/codex-mobile:latest`.
@@ -20,6 +20,7 @@
 - The image builds with the required schema types in its build context, the healthcheck becomes healthy, and the app responds on port `18923`.
 - The container process runs with a non-zero user ID.
 - `CODEX_HOME` is `/home/node/.codex` and `CODEXAPP_PORT` is `18923`.
+- The common coding toolchain is available, including GitHub CLI, Git LFS, shell/build utilities, Python/pip, search/data utilities, and Corepack-provided pnpm/yarn commands.
 - The CLI uses port `5997` when only `CODEXAPP_PORT` is set.
 - Explicit `--port 5998` overrides `CODEXAPP_PORT`.
 - The main-branch workflow builds amd64 and ARM64 on native GitHub-hosted runners instead of QEMU.

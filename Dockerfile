@@ -16,7 +16,24 @@ RUN pnpm run build \
 
 FROM node:22-alpine AS runtime
 
-RUN apk add --no-cache git openssh-client \
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    curl \
+    fd \
+    git \
+    git-lfs \
+    github-cli \
+    jq \
+    less \
+    openssh-client \
+    patch \
+    py3-pip \
+    python3 \
+    ripgrep \
+    rsync \
+    unzip \
+  && corepack enable \
   && npm install --global @openai/codex \
   && npm cache clean --force
 
