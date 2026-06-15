@@ -1,4 +1,4 @@
-### Feature: Docker containerization, schema-backed build, and CODEXAPP_PORT default
+### Feature: Multi-architecture Docker containerization, schema-backed build, and CODEXAPP_PORT default
 
 #### Prerequisites
 - Docker is running.
@@ -14,6 +14,7 @@
 6. Run `docker exec codexapp-local sh -lc 'id -u; printf "%s\n" "$CODEX_HOME" "$CODEXAPP_PORT"'`.
 7. Stop the container, then start the built CLI outside Docker with `CODEXAPP_PORT=5997 node dist-cli/index.js --no-open --no-tunnel --no-login --no-password`.
 8. Start it again with `CODEXAPP_PORT=5997 node dist-cli/index.js --port 5998 --no-open --no-tunnel --no-login --no-password`.
+9. After the main-branch Docker workflow publishes the image, run `docker buildx imagetools inspect ghcr.io/dyay108/codex-mobile:latest`.
 
 #### Expected Results
 - The image builds with the required schema types in its build context, the healthcheck becomes healthy, and the app responds on port `18923`.
@@ -21,6 +22,8 @@
 - `CODEX_HOME` is `/home/node/.codex` and `CODEXAPP_PORT` is `18923`.
 - The CLI uses port `5997` when only `CODEXAPP_PORT` is set.
 - Explicit `--port 5998` overrides `CODEXAPP_PORT`.
+- The main-branch workflow builds amd64 and ARM64 on native GitHub-hosted runners instead of QEMU.
+- The published `latest` manifest lists both `linux/amd64` and `linux/arm64`.
 
 #### Rollback/Cleanup
 - Run `docker rm -f codexapp-local` if it is still running.
