@@ -56,6 +56,6 @@ USER node
 EXPOSE 18923
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget --quiet --output-document=- http://localhost:18923/ >/dev/null || exit 1
+  CMD wget --quiet --output-document=- http://127.0.0.1:18923/ >/dev/null || exit 1
 
 CMD ["node", "dist-cli/index.js"]
