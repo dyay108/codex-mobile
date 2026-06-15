@@ -26,4 +26,4 @@ Return to the [manual test index](../../tests.md).
 | [Feature: CLI auto-stars friuns2/codexui on startup (best-effort)](cli-auto-stars-friuns2-codexui-on-startup-best-effort.md) |
 | [Startup welcome log uses repository GitHub URL](startup-welcome-log-uses-repository-github-url.md) |
 | [Home route no longer crashes on dev startup](home-route-no-longer-crashes-on-dev-startup.md) |
-| [Feature: Multi-architecture Docker containerization, schema-backed build, and CODEXAPP_PORT default](docker-containerization-and-codexapp-port-env.md) |
+| [Feature: Multi-architecture Docker containerization, coding toolchain, and CODEXAPP_PORT default](docker-containerization-and-codexapp-port-env.md) |

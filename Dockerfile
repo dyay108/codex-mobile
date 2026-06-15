@@ -16,7 +16,24 @@ RUN pnpm run build \
 
 FROM node:22-alpine AS runtime
 
-RUN apk add --no-cache git openssh-client \
+RUN apk add --no-cache \
+    bash \
+    build-base \
+    curl \
+    fd \
+    git \
+    git-lfs \
+    github-cli \
+    jq \
+    less \
+    openssh-client \
+    patch \
+    py3-pip \
+    python3 \
+    ripgrep \
+    rsync \
+    unzip \
+  && corepack enable \
   && npm install --global @openai/codex \
   && npm cache clean --force
 
@@ -39,6 +56,6 @@ USER node
 EXPOSE 18923
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget --quiet --output-document=- http://localhost:18923/ >/dev/null || exit 1
+  CMD wget --quiet --output-document=- http://127.0.0.1:18923/ >/dev/null || exit 1
 
 CMD ["node", "dist-cli/index.js"]
